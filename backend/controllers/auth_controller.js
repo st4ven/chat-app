@@ -58,7 +58,8 @@ export const signup = async (req, res) => {
                 _id: newUser._id,
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
-                username: newUser.username
+                username: newUser.username,
+                profilePic
             });
         } else {
             // return an error message if the user was not created successfully
@@ -67,7 +68,7 @@ export const signup = async (req, res) => {
 
     } catch (error) {
         // return an error message if there was an error while signing up
-        console.log("Error in signup controller", error.message);
+        console.error("Error in signup controller", error.message);
         res.status(500).json({error:"Internal server error"});
     }
 }
@@ -104,11 +105,12 @@ export const login = async (req, res) => {
             });
     } catch (error) {
         // return an error message if there was an error while logging in
-        console.log("Error in login controller", error.message);
+        console.error("Error in login controller", error.message);
         res.status(500).json({error:"Internal server error"});
     }
 }
 
+/// Handles the logout endpoint
 export const logout = async (req, res) => {
     try {
         // reset the cookie
@@ -118,7 +120,7 @@ export const logout = async (req, res) => {
         res.status(200).json({ message: "Logged out successfully" });
     } catch (error) {
         // return an error message if we weren't able to logout
-        console.log("Error in logout controller", error.message);
+        console.error("Error in logout controller", error.message);
         res.status(500).json({error:"Internal server error"});
     }
 }
