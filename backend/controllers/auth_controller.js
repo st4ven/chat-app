@@ -6,12 +6,7 @@ import generateTokenAndSetCookie from "../utils/generateToken.js";
 export const signup = async (req, res) => {
     try {
         // get the user data from the request
-        const { firstName, lastName, username, password, confirmPassword, gender, email } = req.body;
-
-        // check that the passwords match as expected
-        if (password !== confirmPassword) {
-            return res.status(400).json({error:"Passwords don't match"});
-        }
+        const { firstName, lastName, username, password, email } = req.body;
 
         // check for duplicate emails or usernames
         const user = await User.findOne({username});
@@ -40,7 +35,6 @@ export const signup = async (req, res) => {
             lastName,
             username,
             password: hashedPassword,
-            gender,
             email,
             profilePic
         })
