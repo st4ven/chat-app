@@ -53,7 +53,7 @@ export const signup = async (req, res) => {
                 firstName: newUser.firstName,
                 lastName: newUser.lastName,
                 username: newUser.username,
-                profilePic
+                profilePic: newUser.profilePic
             });
         } else {
             // return an error message if the user was not created successfully
@@ -95,7 +95,8 @@ export const login = async (req, res) => {
                 _id: user._id,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                username: user.username
+                username: user.username,
+                profilePic: user.profilePic
             });
     } catch (error) {
         // return an error message if there was an error while logging in

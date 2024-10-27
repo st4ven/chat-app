@@ -60,7 +60,7 @@ export const getMessages = async (req, res) => {
 
         // if no conversation, then response will be empty
         if (!conversation) {
-            res.status(200).json([]);
+            return res.status(200).json([]);
         }
 
         // messages from the conversation

@@ -1,19 +1,25 @@
-import React from 'react'
+import { React, useEffect } from 'react'
 import Messages from './Messages'
 import MessageInput from './MessageInput'
+import useConversation from '../../zustand/useConversation'
 
 const MessageContainer = () => {
-  const noChatSelected = false;
+  const { selectedConversation, setSelectedConversation } = useConversation();
 
+  useEffect(() => {
+
+    // cleanup function (unmounts)
+    return () => setSelectedConversation(null);
+  }, [setSelectedConversation])
   return (
     <div className="md:min-w-[450px] flex flex-col">
-      {noChatSelected ? <NoChatSelected /> : (
+      {!selectedConversation ? <NoChatSelected /> : (
         <>
         <div className="px-4 py-1 my-3 flex flex-row items-center gap-3">
             <div className="w-8 rounded-full">
-                <img src="https://avatar.iran.liara.run/username?username=Fred+Figglehorn" alt="Chat bubble" />
+                <img src={selectedConversation.profilePic} alt="Chat bubble" />
             </div>
-            <span className="text-gray-200 font-normal">Fred Figglehorn</span>
+            <span className="text-gray-200 font-normal">{selectedConversation.firstName + " " + selectedConversation.lastName}</span>
         </div>
         <div className="divider my-0 mb-2 py-0 h-1" />
         <Messages />
