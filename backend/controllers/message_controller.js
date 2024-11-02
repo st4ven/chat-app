@@ -1,6 +1,7 @@
 import Conversation from "../models/conversation_model.js";
 import Message from "../models/message_model.js";
-
+import { getReceiverSocketId } from "../socket/socket.js";
+import { io } from "../socket/socket.js";
 /// Handles sending messages between two users
 export const sendMessage = async (req, res) => {
     try {
@@ -32,10 +33,15 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id);
         }
 
-        // SOCKET IO FUNCTIONALITY HERE
-
         // save to database
         await Promise.all([conversation.save(), newMessage.save()]);
+
+        // SocketIO functionality
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        if (receiverSocketId) {
+            // io.to(<socket_id>).emit() is used to send events to specific client
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
 
         // return the message as a response
         res.status(201).json(newMessage);
